@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0px;
+  
+    h1 {
+      text-align: center;
+      font-weight: 400;
+    }
+  
+    button {
+      background-color: rgb(203, 213, 225);
+      width: fit-content;
+      align-self: flex-end;
+      padding: 9px 17px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 17px;
+      border-radius: 10px;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+  
+      &.inActive {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px 0;
+    }
+  }

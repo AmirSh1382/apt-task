@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.groupInfo {
+  background-color: #f5f5f5;
+  padding: 8px 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+
+  & > :nth-child(1) {
+    background-color: rgb(203, 213, 225);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+
+  & > *:nth-child(2) {
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  input {
+    cursor: pointer;
+  }
+
+  i {
+    transition: 0.5s;
+    margin-left: 10px;
+    cursor: pointer;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    &.open {
+      transform: rotate(-180deg);
+      -webkit-transform: rotate(-180deg);
+      -moz-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+      -o-transform: rotate(-180deg);
+    }
+  }
+}
+
+.itemsList {
+  display: none;
+
+  &.open {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+  }
+}
