@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Styles
 import styles from "../styles/allAndSelectedData.module.scss";
@@ -7,36 +7,46 @@ import styles from "../styles/allAndSelectedData.module.scss";
 import Group from "./shared/Group";
 
 // Redux
-import { useSelector, useDispatch } from "react-redux";
-import { addAction } from "../redux/data/dataActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateData } from "../redux/reducers/DataReducer";
 
-// Functions
-import { setInToGroups } from "../helper/functions";
+const AllData = ({ data }) => {
+  const dispatch = useDispatch();
+  const { leftColumnData, rightColumnData } = useSelector(
+    (state) => state.dataReducer
+  );
+  const [selectedItems, setSelectedItems] = useState([]);
 
-const AllData = () => {
-  const dispatch = useDispatch()
-
-  const { allData, addList } = useSelector(state => state.dataState);
-
-  const groupedData = setInToGroups(allData);
-
-  const clickHandler = () => {
-    dispatch(addAction())
-  }
+  const addHandler = () => {
+    dispatch(
+      updateData({
+        leftColumn: leftColumnData.filter(
+          (item) => !selectedItems.find((selected) => selected.id === item.id)
+        ),
+        rightColumn: [...rightColumnData, ...selectedItems],
+      })
+    );
+    setSelectedItems([]);
+  };
 
   return (
     <div className={styles.container}>
       <h1>All Data</h1>
-      <button 
-        onClick={clickHandler}
-        className={!addList.length ? styles.inActive : ""} 
+      <button
+        onClick={addHandler}
+        className={selectedItems.length ? "" : styles.inActive}
       >
         Add
       </button>
-      <div >
-        {
-          groupedData.map(obj => <Group key={obj.groupID} list={"add"} {...obj} />)
-        }
+      <div>
+        {data.map((group) => (
+          <Group
+            key={group.id}
+            group={group}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+          />
+        ))}
       </div>
     </div>
   );

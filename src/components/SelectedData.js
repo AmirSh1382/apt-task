@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Styles
 import styles from "../styles/allAndSelectedData.module.scss";
@@ -7,36 +7,49 @@ import styles from "../styles/allAndSelectedData.module.scss";
 import Group from "./shared/Group";
 
 // Redux
-import { useSelector, useDispatch } from "react-redux";
-import { deleteAction } from "../redux/data/dataActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateData } from "../redux/reducers/DataReducer";
 
-// Functions
-import { setInToGroups } from "../helper/functions";
+const SelectedData = ({ data }) => {
+  const dispatch = useDispatch();
+  const { leftColumnData, rightColumnData } = useSelector(
+    (state) => state.dataReducer
+  );
+  const [selectedItems, setSelectedItems] = useState([]);
 
-const SelectedData = () => {
-  const dispatch = useDispatch()
-
-  const { selectedData, deleteList } = useSelector(state => state.dataState);
-
-  const groupedData = setInToGroups(selectedData);
-
-  const clickHandler = () => {
-    dispatch(deleteAction())
-  }
+  const deleteHandler = () => {
+    dispatch(
+      updateData({
+        leftColumn: [...leftColumnData, ...selectedItems],
+        rightColumn: rightColumnData.filter(
+          (item) =>
+            !selectedItems.find(
+              (selectedItem) => item.uniqueId === selectedItem.uniqueId
+            )
+        ),
+      })
+    );
+    setSelectedItems([]);
+  };
 
   return (
     <div className={styles.container}>
       <h1>Selected Data</h1>
-      <button 
-        onClick={clickHandler}
-        className={!deleteList.length ? styles.inActive : ""} 
+      <button
+        onClick={deleteHandler}
+        className={selectedItems.length ? "" : styles.inActive}
       >
         Delete
       </button>
       <div>
-        {
-          groupedData.map((obj, index) => <Group key={index} list={"delete"} {...obj} /> )
-        }
+        {data.map((group) => (
+          <Group
+            key={group.id}
+            group={group}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+          />
+        ))}
       </div>
     </div>
   );

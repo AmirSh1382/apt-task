@@ -1,11 +1,11 @@
 import React from "react";
 
 // Redux
-import { Provider } from "react-redux";
 import store from "./redux/store";
 
-// Componetns
+// Components
 import Layout from "./components/Layout";
+import { Provider } from "react-redux";
 
 const App = () => {
   return (

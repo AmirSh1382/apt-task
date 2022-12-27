@@ -3,60 +3,33 @@ import React from "react";
 // Styles
 import styles from "../../styles/item.module.scss";
 
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-import { updateAddList, updateDeleteList } from "../../redux/data/dataActions";
-
 // Moment JS
 import moment from "moment";
 
-// Functions
-import {
-  addObjToDeleteList,
-  removeObjFromDeleteList,
-  isObjExistsInList,
-  addObjToAddList,
-  removeObjFromAddList
-} from "../../helper/functions";
-
-const Item = (data) => {
-  const dispatch = useDispatch();
-
-  const { addList, deleteList } = useSelector(state => state.dataState);
-
-  const { itemData, list } = data;
-  const { uniqueId, created } = itemData;
-
+const Item = ({ item, selectedItems, setSelectedItems }) => {
   const changeHandler = (e) => {
-    if (list === "add") {
-      e.target.checked &&
-        dispatch(updateAddList(addObjToAddList(addList, itemData)));
-
-      !e.target.checked &&
-        dispatch(updateAddList(removeObjFromAddList(addList, itemData)));
+    if (e.target.checked) {
+      setSelectedItems((prevValue) => [...prevValue, item]);
     } else {
-      e.target.checked &&
-        dispatch(updateDeleteList(addObjToDeleteList(deleteList, itemData)));
-
-      !e.target.checked &&
-        dispatch(updateDeleteList(removeObjFromDeleteList(deleteList, itemData)));
+      setSelectedItems((prevValue) => [
+        ...prevValue.filter((prevItem) => prevItem.uniqueId !== item.uniqueId),
+      ]);
     }
   };
 
+  const checkboxCheckHandler = () =>
+    selectedItems.find(
+      (selectedItem) => selectedItem.uniqueId === item.uniqueId
+    );
+
   return (
     <div className={styles.mainContainer}>
-      <div>#{uniqueId}</div>
-
-      <div>{moment(created).format("DD/MM/YYYY")}</div>
-
+      <div>#{item.uniqueId}</div>
+      <div>{moment(item.created).format("DD/MM/YYYY")}</div>
       <input
-        checked={
-          list === "add"
-            ? isObjExistsInList(addList, itemData)
-            : isObjExistsInList(deleteList, itemData)
-        }
         type="checkbox"
         onChange={changeHandler}
+        checked={checkboxCheckHandler()}
       />
     </div>
   );

@@ -1,8 +1,11 @@
-import { createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { dataReducer } from "./reducers/DataReducer";
 
-// RootReducer
-import rootReducer from "./rootReducer";
+const store = configureStore({
+  reducer: {
+    dataReducer,
+  },
+  devTools: process.env.NODE_ENV !== "production",
+});
 
-const store = createStore(rootReducer);
-
-export default store;
+export default store
