@@ -26,14 +26,15 @@ const Layout = () => {
   );
 
   useEffect(() => {
-    dispatch(
-      updateData({
-        leftColumn: data,
-        rightColumn: [],
-      })
-    );
-    // eslint-disable-next-line
-  }, []);
+    if (!leftColumnData.length && !rightColumnData.length) {
+      dispatch(
+        updateData({
+          leftColumn: data,
+          rightColumn: [],
+        })
+      );
+    }
+  }, [data, dispatch, leftColumnData.length, rightColumnData.length]);
 
   return (
     <div className={styles.container}>

@@ -20,7 +20,9 @@ const Item = ({ item, selectedItems, setSelectedItems }) => {
   const checkboxCheckHandler = () =>
     selectedItems.find(
       (selectedItem) => selectedItem.uniqueId === item.uniqueId
-    );
+    )
+      ? true
+      : false;
 
   return (
     <div className={styles.mainContainer}>
